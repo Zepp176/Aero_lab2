@@ -23,8 +23,10 @@ b_L = -V_zero_L*a_L
 x_D = np.linspace(0.5, 5.2, 100)
 x_L = np.linspace(-0.25, 1.2, 100)
 
-plt.plot(x_D, a_D*x_D + b_D_c, "g")
-plt.plot(x_L, a_L*x_L + b_L_c, "g", label="_nolegend_")
+plt.figure(figsize=(7,5))
+
+plt.plot(x_D, a_D*x_D + b_D_c, "g--")
+plt.plot(x_L, a_L*x_L + b_L_c, "g--", label="_nolegend_")
 plt.plot(V_D_c, D_c, "o")
 plt.plot(V_L_c, L_c, "o")
 
@@ -33,8 +35,8 @@ plt.grid()
 plt.legend(["Linear regressions", "Drag calibration data", "Lift calibration data"])
 plt.ylabel("Force [N]")
 plt.xlabel("Tension [V]")
-
-#plt.show()
+plt.tight_layout()
+plt.savefig("fig1.png", dpi=300)
 
 # Data
 
@@ -62,6 +64,8 @@ angles += offset_angle
 x_CL = np.linspace(angles[0], angles[8], 100)
 CL_reg = a_CL*x_CL
 
+plt.figure(figsize=(7,5))
+
 plt.plot(angles, C_D, 'o-')
 plt.plot(angles, C_L, 'o-')
 plt.plot(x_CL, CL_reg, 'k--')
@@ -69,9 +73,9 @@ plt.plot(x_CL, CL_reg, 'k--')
 plt.grid()
 plt.ylabel("Aerodynamic coefficients")
 plt.xlabel("angle [°]")
-plt.legend(["$C_D$", "$C_L$", "$C_L$ slope = {:.2f}".format(a_CL*180/np.pi)])
-
-#plt.show()
+plt.legend(["$C_D$", "$C_L$", "$C_L$ regression slope = {:.2f}".format(a_CL*180/np.pi)])
+plt.tight_layout()
+plt.savefig("fig2.png", dpi=300)
 
 # Interpolation of polar curve
 
@@ -88,6 +92,8 @@ max_LD = 1/np.sqrt(4*C_D0*k)
 
 # Polar curve
 
+plt.figure(figsize=(7,5))
+
 plt.plot(C_D, C_L, 'o-')
 plt.plot(C_D_reg, C_L_reg, 'k--')
 plt.plot([0, 0.8/max_LD], [0, 0.8])
@@ -101,7 +107,8 @@ plt.legend(["Polar curve", "Parabolic interpolation", "Maximum slope", "Optimal 
 plt.grid()
 plt.xlabel("$C_D$")
 plt.ylabel("$C_L$")
-#plt.show()
+plt.tight_layout()
+plt.savefig("fig3.png", dpi=300)
 
 e = 1/(np.pi*k*AR)
 print("Oswald efficiency: {:.3f}".format(e))
